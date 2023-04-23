@@ -1,0 +1,20 @@
+import 'package:equatable/equatable.dart';
+
+class ServerException extends Equatable implements Exception {
+  final String? message;
+
+  const ServerException([this.message]);
+
+  @override
+  List<Object?> get props => [message];
+
+  @override
+  String toString() {
+    return '$message';
+  }
+}
+
+class PlatformDataException extends ServerException {
+  const PlatformDataException([message])
+      : super("Error in platform communication");
+}
