@@ -19,6 +19,7 @@ class CoursesRepositoryImpl implements CoursesRepository {
     final response = await firebaseApiProvider.getData(collection)
         as List<QueryDocumentSnapshot<Map<String, dynamic>>>;
 
+    // convert json from firebase to course model
     return response
         .map((value) => CourseModel.fromFirestore(querySnap: value))
         .toList();

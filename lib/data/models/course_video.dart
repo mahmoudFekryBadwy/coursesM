@@ -1,9 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:equatable/equatable.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+part 'course_video.g.dart';
 
-class CourseVideo {
+@HiveType(typeId: 1)
+class CourseVideo extends Equatable {
+  @HiveField(1)
   String? id;
+  @HiveField(2)
   String? name;
+  @HiveField(3)
   String? number;
+  @HiveField(4)
   String? link;
 
   CourseVideo({
@@ -40,4 +48,7 @@ class CourseVideo {
       'link': link,
     };
   }
+
+  @override
+  List<Object?> get props => [name, number, link];
 }

@@ -1,33 +1,41 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coursesm/core/dependencies.dart';
+import 'package:coursesm/core/utils/enums/courses_type.dart';
 import 'package:coursesm/presentation/courses/courses_viewmodel.dart';
 import 'package:coursesm/presentation/widgets/course_card.dart';
 import 'package:flutter/material.dart';
 
-class Courses2Screen extends StatefulWidget {
-  const Courses2Screen({Key? key}) : super(key: key);
+class CoursesScreen extends StatefulWidget {
+  final CoursesType coursesType;
+  const CoursesScreen({Key? key, required this.coursesType}) : super(key: key);
 
   @override
-  State<Courses2Screen> createState() => _Courses2ScreenState();
+  State<CoursesScreen> createState() => _CoursesScreenState();
 }
 
-class _Courses2ScreenState extends State<Courses2Screen> {
-  var code;
-  var id;
+class _CoursesScreenState extends State<CoursesScreen> {
   List tikenid = [];
   var codeController = TextEditingController();
-  var codeId;
-  var model;
-  var uId;
 
   bool _disposed = false;
+
+  void _handleFetchCourses(CoursesType coursesType) {
+    // fetch courses based on courses type (2 or 3)
+    switch (coursesType) {
+      case CoursesType.courses2:
+        return sl<CoursesViewModel>().getCourses(2, () {
+          setState(() {});
+        });
+      case CoursesType.courses3:
+        return sl<CoursesViewModel>().getCourses(3, () {
+          setState(() {});
+        });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    sl<CoursesViewModel>().getCourses(2, () {
-      setState(() {});
-    });
+    _handleFetchCourses(widget.coursesType);
   }
 
   @override
@@ -40,9 +48,6 @@ class _Courses2ScreenState extends State<Courses2Screen> {
     });
     super.dispose();
   }
-
-  CollectionReference courses2 =
-      FirebaseFirestore.instance.collection("courses2");
 
   @override
   Widget build(BuildContext context) {
@@ -65,18 +70,20 @@ class _Courses2ScreenState extends State<Courses2Screen> {
                       bottomRight: Radius.circular(90)),
                   color: Colors.white),
               child: Column(
-                children: const [
+                children: [
                   Center(
                     child: Text(
-                      'الفرقة الثانية',
-                      style: TextStyle(
+                      widget.coursesType == CoursesType.courses2
+                          ? 'الفرقة الثانية'
+                          : 'الفرقة الثالثة',
+                      style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 30,
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                 ],
@@ -108,7 +115,10 @@ class _Courses2ScreenState extends State<Courses2Screen> {
                         itemExtent: 120,
                         itemBuilder: (context, index) {
                           final course = sl<CoursesViewModel>().courses[index];
-                          return CourseCard(course: course);
+                          return CourseCard(
+                            course: course,
+                            coursesType: widget.coursesType,
+                          );
                         });
                   } else {
                     return const Center(

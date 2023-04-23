@@ -2,13 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class CourseModel extends Equatable {
-  String? id;
-  String? name;
-  int? date;
-  List<String>? videos;
-  List<String>? codes;
+  final String? id;
+  final String? name;
+  final int? date;
 
-  CourseModel({this.id, this.name, this.date, this.videos, this.codes});
+  const CourseModel({
+    this.id,
+    this.name,
+    this.date,
+  });
 
   factory CourseModel.fromFirestore(
       {DocumentSnapshot<Map<String, dynamic>>? docSnap,
@@ -32,7 +34,6 @@ class CourseModel extends Equatable {
     return {
       'name': name,
       'date': date,
-      'videos': videos,
     };
   }
 
@@ -40,18 +41,14 @@ class CourseModel extends Equatable {
     String? id,
     String? name,
     int? date,
-    List<String>? videos,
-    List<String>? codes,
   }) {
     return CourseModel(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        date: date ?? this.date,
-        videos: videos ?? this.videos,
-        codes: codes ?? this.codes);
+      id: id ?? this.id,
+      name: name ?? this.name,
+      date: date ?? this.date,
+    );
   }
 
   @override
-  // TODO: implement props
-  List<Object?> get props => [id, name, date, videos, codes];
+  List<Object?> get props => [id, name, date];
 }

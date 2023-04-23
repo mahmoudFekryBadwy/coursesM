@@ -1,13 +1,26 @@
+import 'package:coursesm/core/utils/enums/courses_type.dart';
 import 'package:coursesm/data/models/course_model.dart';
 import 'package:flutter/material.dart';
 
+import '../list_courses1_screen.dart';
+
 class CourseCard extends StatelessWidget {
   final CourseModel course;
-  const CourseCard({super.key, required this.course});
+  final CoursesType coursesType;
+  const CourseCard(
+      {super.key, required this.course, required this.coursesType});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ListCourses1Screen(
+                  docid: course.id,
+                  name: "courses2",
+                  code: 'hgfgffhffhcgh3mDoneCode',
+                )));
+      },
       // onTap: () async {
       //   CollectionReference codes = FirebaseFirestore
       //       .instance

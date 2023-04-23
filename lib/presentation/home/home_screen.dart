@@ -1,7 +1,7 @@
+import 'package:coursesm/core/utils/enums/courses_type.dart';
 import 'package:flutter/material.dart';
 
-import '../courses/courses2_screen.dart';
-import '../courses/courses3_screen.dart';
+import '../courses/courses_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -81,7 +81,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       InkWell(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const Courses2Screen()));
+                              builder: (context) => const CoursesScreen(
+                                    coursesType: CoursesType.courses2,
+                                  )));
                         },
                         child: Card(
                           color: const Color(0xFF4097a6),
@@ -129,7 +131,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       InkWell(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const Courses3Screen()));
+                              builder: (context) => const CoursesScreen(
+                                    coursesType: CoursesType.courses3,
+                                  )));
                         },
                         child: Card(
                           color: const Color(0xFF4097a6),

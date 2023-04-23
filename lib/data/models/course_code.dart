@@ -1,8 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:equatable/equatable.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+part 'course_code.g.dart';
 
-class CourseCode {
+@HiveType(typeId: 2)
+class CourseCode extends Equatable {
+  @HiveField(1)
   String? id;
+  @HiveField(2)
   String? code;
+  @HiveField(3)
   String? uid;
 
   CourseCode({
@@ -35,4 +42,7 @@ class CourseCode {
       'uid': uid,
     };
   }
+
+  @override
+  List<Object?> get props => [code, uid];
 }

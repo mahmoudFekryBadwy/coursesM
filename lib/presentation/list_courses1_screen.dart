@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:coursesm/core/app_strings.dart';
 import 'package:coursesm/presentation/video/play_video_screeen.dart';
 import 'package:flutter/material.dart';
 
@@ -17,8 +18,8 @@ class _ListCourses1ScreenState extends State<ListCourses1Screen> {
   @override
   Widget build(BuildContext context) {
     CollectionReference videos = FirebaseFirestore.instance
-        .collection(widget.name)
-        .doc(widget.docid)
+        .collection(AppStrings.thirdCoursesCollection)
+        .doc('3dS4gCakfF99B2jW4Y4C')
         .collection('videos');
     return Scaffold(
       appBar: AppBar(
@@ -74,9 +75,10 @@ class _ListCourses1ScreenState extends State<ListCourses1Screen> {
             ),
             Expanded(
               child: FutureBuilder(
-                future: videos.orderBy("num", descending: false).get(),
+                future: videos.get(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
+                    print(snapshot.data!.docs);
                     return ListView.builder(
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (context, i) {

@@ -1,15 +1,30 @@
+import 'package:coursesm/core/app_strings.dart';
 import 'package:coursesm/core/dependencies.dart';
+import 'package:coursesm/data/models/course_video.dart';
 import 'package:coursesm/presentation/splash/splash_screen.dart';
 import 'package:coursesm/services/db_helper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_windowmanager/flutter_windowmanager.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+import 'data/models/course_code.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await DBHelper.initDb();
   await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+  // init hive for local storage
+  await Hive.initFlutter();
+
+  Hive.registerAdapter(CourseVideoAdapter());
+  Hive.registerAdapter(CourseCodeAdapter());
+  await Hive.openBox<List<CourseVideo>>(
+      AppStrings.videosKey); //  box  for storing and caching videos
+  await Hive.openBox<List<CourseCode>>(
+      AppStrings.codesKey); //  box  for storing and caching codes
+
   setupDependencies();
   runApp(const MyApp());
 }
