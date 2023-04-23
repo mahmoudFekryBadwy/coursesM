@@ -16,9 +16,8 @@ class CoursesRepositoryImpl implements CoursesRepository {
   CoursesRepositoryImpl({required this.firebaseApiProvider});
 
   Future<List<CourseModel>> _handleCourseConvertion(String collection) async {
-    final response =
-        await firebaseApiProvider.getData(AppStrings.secondCoursesCollection)
-            as List<QueryDocumentSnapshot<Map<String, dynamic>>>;
+    final response = await firebaseApiProvider.getData(collection)
+        as List<QueryDocumentSnapshot<Map<String, dynamic>>>;
 
     return response
         .map((value) => CourseModel.fromFirestore(querySnap: value))
