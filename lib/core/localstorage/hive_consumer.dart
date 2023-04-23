@@ -8,13 +8,13 @@ class HiveStorageService implements LocalStorageProvider {
   }
 
   @override
-  Future<T> getData<T>(String key) async {
+  Future<T> getData<T>(String key, [String? boxName]) async {
     try {
-      if (!Hive.isBoxOpen(key)) {
-        await Hive.openBox<T>(key);
+      if (!Hive.isBoxOpen(boxName!)) {
+        await Hive.openBox<T>(boxName);
       }
-      final box = Hive.box<T>(key);
-      print(box.values);
+      final box = Hive.box<T>(boxName);
+
       return box.get(key) as T;
     } catch (err) {
       throw const CacheException();
@@ -22,12 +22,12 @@ class HiveStorageService implements LocalStorageProvider {
   }
 
   @override
-  Future<void> setData<T>(String key, T value) async {
+  Future<void> setData<T>(String key, T value, [String? boxName]) async {
     try {
-      if (!Hive.isBoxOpen(key)) {
-        await Hive.openBox<T>(key);
+      if (!Hive.isBoxOpen(boxName!)) {
+        await Hive.openBox<T>(boxName);
       }
-      final box = Hive.box<T>(key);
+      final box = Hive.box<T>(boxName);
       if (!box.containsKey(key)) {
         box.put(key, value);
       }

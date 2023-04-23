@@ -1,3 +1,4 @@
+import 'package:coursesm/data/models/course_model.dart';
 import 'package:coursesm/data/models/course_video.dart';
 import 'package:flutter/material.dart';
 
@@ -6,7 +7,12 @@ import '../video/play_video_screeen.dart';
 class VideoCard extends StatelessWidget {
   final CourseVideo video;
   final String code;
-  const VideoCard({super.key, required this.video, required this.code});
+  final CourseModel course;
+  const VideoCard(
+      {super.key,
+      required this.video,
+      required this.code,
+      required this.course});
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +20,8 @@ class VideoCard extends StatelessWidget {
       onTap: () async {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => PlayVideoScreen(
-                  list: video.link,
-                  name: video.name,
+                  video: video,
+                  courseModel: course,
                   code: code,
                 )));
       },

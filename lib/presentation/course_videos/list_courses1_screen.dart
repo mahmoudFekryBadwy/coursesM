@@ -116,7 +116,11 @@ class _ListCourses1ScreenState extends State<ListCourses1Screen> {
                       itemCount: sl<CourseVideosViewModel>().videos.length,
                       itemBuilder: (context, index) {
                         final video = sl<CourseVideosViewModel>().videos[index];
-                        return VideoCard(video: video, code: widget.code);
+                        return VideoCard(
+                          video: video,
+                          code: widget.code,
+                          course: widget.course,
+                        );
                       });
                 } else {
                   return const Center(
