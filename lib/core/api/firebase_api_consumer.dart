@@ -65,6 +65,8 @@ class FirebaseApiConsumer implements FirebaseApiProvider {
           .collection(subCollection)
           .get()
           .then((value) => data = value.docs);
+
+      return data;
     } catch (err) {
       throw const ServerException();
     }

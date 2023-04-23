@@ -35,9 +35,9 @@ class CourseVideo extends Equatable {
     final data = doc.data() as Map<String, dynamic>;
     return CourseVideo(
       id: doc.id,
-      name: data['name'] as String,
-      number: data['num'] as String,
-      link: data['link'] as String,
+      name: data['name'] ?? '',
+      number: data['num'] ?? '',
+      link: data['video'] ?? '',
     );
   }
 
@@ -45,7 +45,7 @@ class CourseVideo extends Equatable {
     return {
       'name': name,
       'num': number,
-      'link': link,
+      'video': link,
     };
   }
 

@@ -2,7 +2,7 @@ import 'package:coursesm/core/utils/enums/courses_type.dart';
 import 'package:coursesm/data/models/course_model.dart';
 import 'package:flutter/material.dart';
 
-import '../list_courses1_screen.dart';
+import '../course_videos/list_courses1_screen.dart';
 
 class CourseCard extends StatelessWidget {
   final CourseModel course;
@@ -16,8 +16,8 @@ class CourseCard extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ListCourses1Screen(
-                  docid: course.id,
-                  name: "courses2",
+                  course: course,
+                  coursesType: coursesType,
                   code: 'hgfgffhffhcgh3mDoneCode',
                 )));
       },
