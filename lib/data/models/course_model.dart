@@ -11,12 +11,21 @@ class CourseModel extends Equatable {
   CourseModel({this.id, this.name, this.date, this.videos, this.codes});
 
   factory CourseModel.fromFirestore(
-      DocumentSnapshot<Map<String, dynamic>> doc) {
-    return CourseModel(
-      id: doc.id,
-      name: doc.data()!['name'] ?? '',
-      date: doc.data()!['date'] ?? 0,
-    );
+      {DocumentSnapshot<Map<String, dynamic>>? docSnap,
+      QueryDocumentSnapshot<Map<String, dynamic>>? querySnap}) {
+    if (docSnap != null) {
+      return CourseModel(
+        id: docSnap.id,
+        name: docSnap.data()!['name'] ?? '',
+        date: docSnap.data()!['date'] ?? 0,
+      );
+    } else {
+      return CourseModel(
+        id: querySnap!.id,
+        name: querySnap.data()['name'] ?? '',
+        date: querySnap.data()['date'] ?? 0,
+      );
+    }
   }
 
   Map<String, dynamic> toFirestore() {

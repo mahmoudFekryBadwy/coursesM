@@ -33,6 +33,7 @@ dependencies:
   better_player: ^0.0.83
   cloud_firestore: ^4.1.0
   cupertino_icons: ^1.0.2
+  dartz: ^0.10.1
   equatable: ^2.0.5
   firebase_auth: ^4.1.5
   firebase_core: ^2.3.0

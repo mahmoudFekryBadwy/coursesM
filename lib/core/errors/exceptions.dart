@@ -14,7 +14,12 @@ class ServerException extends Equatable implements Exception {
   }
 }
 
-class PlatformDataException extends ServerException {
-  const PlatformDataException([message])
-      : super("Error in platform communication");
+class NoInternetException extends ServerException {
+  const NoInternetException([message])
+      : super("مشكلة في الانترنت....حاول مرة اخرى");
+}
+
+class CacheException extends ServerException {
+  const CacheException([message])
+      : super("مشكلة في الذاكرة المحلية....حاول مرة اخرى");
 }

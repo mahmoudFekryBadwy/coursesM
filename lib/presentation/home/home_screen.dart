@@ -1,6 +1,7 @@
-import 'package:coursesm/maduls/courses2_screen.dart';
-import 'package:coursesm/maduls/courses3_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../courses/courses2_screen.dart';
+import '../courses/courses3_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

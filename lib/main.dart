@@ -1,5 +1,5 @@
-import 'package:coursesm/maduls/home_screen.dart';
-import 'package:coursesm/maduls/splash_screen.dart';
+import 'package:coursesm/core/dependencies.dart';
+import 'package:coursesm/presentation/splash/splash_screen.dart';
 import 'package:coursesm/services/db_helper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +10,7 @@ void main() async {
   await Firebase.initializeApp();
   await DBHelper.initDb();
   await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+  setupDependencies();
   runApp(const MyApp());
 }
 
@@ -19,10 +20,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return const MaterialApp(
       home: SplashScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
-
