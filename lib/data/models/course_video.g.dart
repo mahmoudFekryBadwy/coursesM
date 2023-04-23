@@ -21,13 +21,14 @@ class CourseVideoAdapter extends TypeAdapter<CourseVideo> {
       name: fields[2] as String?,
       number: fields[3] as String?,
       link: fields[4] as String?,
+      filePath: fields[5] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, CourseVideo obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(1)
       ..write(obj.id)
       ..writeByte(2)
@@ -35,7 +36,9 @@ class CourseVideoAdapter extends TypeAdapter<CourseVideo> {
       ..writeByte(3)
       ..write(obj.number)
       ..writeByte(4)
-      ..write(obj.link);
+      ..write(obj.link)
+      ..writeByte(5)
+      ..write(obj.filePath);
   }
 
   @override

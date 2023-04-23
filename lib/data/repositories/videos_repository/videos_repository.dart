@@ -4,6 +4,8 @@ import 'package:coursesm/data/repositories/videos_repository/videos_cache_reposi
 import 'package:coursesm/data/repositories/videos_repository/videos_remote_repository.dart';
 import 'package:coursesm/services/connectivity_service.dart';
 
+import '../../../services/video_downloader_service.dart';
+
 abstract class VideosRepository {
   Future<List<CourseVideo>> getCourseVideos(
       CoursesType coursesType, String courseDocId);
@@ -13,9 +15,11 @@ class VideosRepositoryImpl implements VideosRepository {
   final VideosCacheRepository videosCacheRepository;
   final VideosRemoteRepository videosRemoteRepository;
   final ConnectivityService connectivityService;
+  final VideoDownloaderService videoDownloaderService;
 
   VideosRepositoryImpl(
       {required this.videosCacheRepository,
+      required this.videoDownloaderService,
       required this.connectivityService,
       required this.videosRemoteRepository});
 
@@ -30,8 +34,12 @@ class VideosRepositoryImpl implements VideosRepository {
         videos = await videosRemoteRepository.getCourseVideos(
             coursesType, courseDocId); // get videos from firestore
 
+        final downloadedVideos =
+            await videoDownloaderService.retrieveVideosFiles(
+                videos); // download videos and retrive file path
+
         await videosCacheRepository.cacheVideos(
-            courseDocId, videos); // cache videos
+            courseDocId, downloadedVideos); // cache downloaded videos files
       } else {
         // if failed fetch from cahce
         videos = await videosCacheRepository.getCachedCourseVideos(courseDocId);

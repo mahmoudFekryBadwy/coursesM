@@ -36,8 +36,11 @@ class VideosRemoteRepositoryImpl implements VideosRemoteRepository {
 
   Future<List<CourseVideo>> _handleFirestoreFetching(
       String collection, String docId) async {
-    final response = await firebaseApiProvider.getSubCollectionData(
-            collection, docId, AppStrings.videosSubCollection)
+    final response = await firebaseApiProvider.getSubCollectionDataWithOrder(
+            collection,
+            docId,
+            AppStrings.videosSubCollection,
+            'num') // order for videos by num
         as List<QueryDocumentSnapshot<Map<String, dynamic>>>;
 
     return response.map((doc) => CourseVideo.fromQuerySnapshot(doc)).toList();

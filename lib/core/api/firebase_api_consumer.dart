@@ -71,4 +71,24 @@ class FirebaseApiConsumer implements FirebaseApiProvider {
       throw const ServerException();
     }
   }
+
+  @override
+  Future getSubCollectionDataWithOrder(String collection, String docId,
+      String subCollection, String orderBy) async {
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> data = [];
+
+    try {
+      await baseServise.fireStore
+          .collection(collection)
+          .doc(docId)
+          .collection(subCollection)
+          .orderBy(orderBy, descending: false)
+          .get()
+          .then((value) => data = value.docs);
+
+      return data;
+    } catch (err) {
+      throw const ServerException();
+    }
+  }
 }

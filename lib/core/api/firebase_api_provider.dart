@@ -4,4 +4,6 @@ abstract class FirebaseApiProvider {
   Future getData(String collection);
   Future getSubCollectionData(
       String collection, String docId, String subCollection);
+  Future getSubCollectionDataWithOrder(
+      String collection, String docId, String subCollection, String orderBy);
 }

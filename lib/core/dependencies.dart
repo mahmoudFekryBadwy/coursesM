@@ -9,6 +9,7 @@ import 'package:coursesm/presentation/course_videos/course_videos_viewmodel.dart
 import 'package:coursesm/presentation/courses/courses_viewmodel.dart';
 import 'package:coursesm/services/base_service.dart';
 import 'package:coursesm/services/connectivity_service.dart';
+import 'package:coursesm/services/video_downloader_service.dart';
 import 'package:get_it/get_it.dart';
 
 import 'localstorage/hive_consumer.dart';
@@ -21,6 +22,7 @@ void setupDependencies() {
 
   sl.registerLazySingleton(() => BaseServise());
   sl.registerLazySingleton(() => ConnectivityService());
+  sl.registerLazySingleton(() => VideoDownloaderService());
   sl.registerLazySingleton<LocalStorageProvider>(() => HiveStorageService());
   sl.registerLazySingleton<FirebaseApiProvider>(
       () => FirebaseApiConsumer(baseServise: sl()));
@@ -34,6 +36,7 @@ void setupDependencies() {
       () => VideosRemoteRepositoryImpl(firebaseApiProvider: sl()));
 
   sl.registerLazySingleton<VideosRepository>(() => VideosRepositoryImpl(
+      videoDownloaderService: sl(),
       videosCacheRepository: sl(),
       videosRemoteRepository: sl(),
       connectivityService: sl()));

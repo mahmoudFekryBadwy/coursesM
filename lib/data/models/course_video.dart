@@ -6,20 +6,34 @@ part 'course_video.g.dart';
 @HiveType(typeId: 1)
 class CourseVideo extends Equatable {
   @HiveField(1)
-  String? id;
+  final String? id;
   @HiveField(2)
-  String? name;
+  final String? name;
   @HiveField(3)
-  String? number;
+  final String? number;
   @HiveField(4)
-  String? link;
+  final String? link;
+  @HiveField(5)
+  final String? filePath;
 
-  CourseVideo({
-    required this.id,
-    required this.name,
-    required this.number,
-    required this.link,
-  });
+  const CourseVideo(
+      {this.id, this.name, this.number, this.link, this.filePath});
+
+  CourseVideo copyWith({
+    String? id,
+    String? name,
+    String? number,
+    String? link,
+    String? filePath,
+  }) {
+    return CourseVideo(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      number: number ?? this.number,
+      link: link ?? this.link,
+      filePath: filePath ?? this.filePath,
+    );
+  }
 
   factory CourseVideo.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
@@ -50,5 +64,5 @@ class CourseVideo extends Equatable {
   }
 
   @override
-  List<Object?> get props => [name, number, link];
+  List<Object?> get props => [name, number, link, filePath];
 }
