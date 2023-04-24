@@ -20,10 +20,12 @@ void main() async {
 
   Hive.registerAdapter(CourseVideoAdapter());
   Hive.registerAdapter(CourseCodeAdapter());
-  await Hive.openBox<List<CourseVideo>>(
+  await Hive.openBox<Map<String, List<CourseVideo>>>(
       AppStrings.videosKey); //  box  for storing and caching videos
   await Hive.openBox<List<CourseCode>>(
       AppStrings.codesKey); //  box  for storing and caching codes
+
+  await Hive.openBox<String>(AppStrings.videosPathsKey);
 
   setupDependencies();
   runApp(const MyApp());

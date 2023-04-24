@@ -15,7 +15,9 @@ class HiveStorageService implements LocalStorageProvider {
       }
       final box = Hive.box<T>(boxName);
 
-      return box.get(key) as T;
+      final value = box.get(key);
+
+      return value as T;
     } catch (err) {
       throw const CacheException();
     }

@@ -6,5 +6,6 @@ class AppStrings {
 
   // hive keys (local storage)
   static const String videosKey = 'videosKey';
+  static const String videosPathsKey = 'videosPathsKey';
   static const String codesKey = 'codesKey';
 }

@@ -1,10 +1,8 @@
-import 'package:coursesm/core/app_strings.dart';
 import 'package:coursesm/core/utils/enums/courses_type.dart';
 import 'package:coursesm/data/models/course_video.dart';
 import 'package:coursesm/data/repositories/videos_repository/videos_cache_repository.dart';
 import 'package:coursesm/data/repositories/videos_repository/videos_remote_repository.dart';
 import 'package:coursesm/services/connectivity_service.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../services/video_downloader_service.dart';
 
@@ -37,7 +35,10 @@ class VideosRepositoryImpl implements VideosRepository {
             coursesType, courseDocId);
         // get videos from firestore
 
-        _handleVideosCaching(videos, courseDocId);
+        await videosCacheRepository
+            .cacheVideos(courseDocId, {courseDocId: videos});
+
+        // _handleVideosCaching(videos, courseDocId);
       } else {
         // if failed fetch from cahce
         videos = await videosCacheRepository.getCachedCourseVideos(courseDocId);
@@ -49,23 +50,23 @@ class VideosRepositoryImpl implements VideosRepository {
     }
   }
 
-  void _handleVideosCaching(
-      List<CourseVideo> videos, String courseDocId) async {
-    if (!Hive.isBoxOpen(AppStrings.videosKey)) {
-      await Hive.openBox<List<CourseVideo>>(AppStrings.videosKey);
-    }
+  // void _handleVideosCaching(
+  //     List<CourseVideo> videos, String courseDocId) async {
+  //   if (!Hive.isBoxOpen(AppStrings.videosKey)) {
+  //     await Hive.openBox<List<CourseVideo>>(AppStrings.videosKey);
+  //   }
 
-    final box = Hive.box<List<CourseVideo>>(AppStrings.videosKey);
-    bool test = box.containsKey(courseDocId);
+  //   final box = Hive.box<List<CourseVideo>>(AppStrings.videosKey);
+  //   bool test = box.containsKey(courseDocId);
 
-    print(test);
+  //   print(test);
 
-    if (!test) {
-      final downloadedVideos = await videoDownloaderService
-          .retrieveVideosFiles(videos); // download videos and retrive file path
+  //   if (!test) {
+  //     final downloadedVideos = await videoDownloaderService
+  //         .retrieveVideosFiles(videos); // download videos and retrive file path
 
-      await videosCacheRepository.cacheVideos(
-          courseDocId, downloadedVideos); // cache downloaded videos files
-    }
-  }
+  //     await videosCacheRepository.cacheVideos(
+  //         courseDocId, downloadedVideos); // cache downloaded videos files
+  //   }
+  // }
 }

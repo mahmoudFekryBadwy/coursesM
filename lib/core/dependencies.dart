@@ -7,6 +7,7 @@ import 'package:coursesm/data/repositories/videos_repository/videos_remote_repos
 import 'package:coursesm/data/repositories/videos_repository/videos_repository.dart';
 import 'package:coursesm/presentation/course_videos/course_videos_viewmodel.dart';
 import 'package:coursesm/presentation/courses/courses_viewmodel.dart';
+import 'package:coursesm/presentation/video/play_video_viewmodel.dart';
 import 'package:coursesm/services/base_service.dart';
 import 'package:coursesm/services/connectivity_service.dart';
 import 'package:coursesm/services/video_downloader_service.dart';
@@ -43,4 +44,8 @@ void setupDependencies() {
 
   sl.registerLazySingleton(() => CoursesViewModel(coursesRepository: sl()));
   sl.registerLazySingleton(() => CourseVideosViewModel(videosRepository: sl()));
+  sl.registerLazySingleton(() => PlayVideoViewModel(
+      connectivityService: sl(),
+      videoDownloaderService: sl(),
+      videosCacheRepository: sl()));
 }
