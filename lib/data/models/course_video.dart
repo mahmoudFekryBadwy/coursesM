@@ -5,6 +5,8 @@ part 'course_video.g.dart';
 
 @HiveType(typeId: 1)
 class CourseVideo extends Equatable {
+  @HiveField(6)
+  final String? courseId;
   @HiveField(1)
   final String? id;
   @HiveField(2)
@@ -13,25 +15,23 @@ class CourseVideo extends Equatable {
   final String? number;
   @HiveField(4)
   final String? link;
-  @HiveField(5)
-  final String? filePath;
 
   const CourseVideo(
-      {this.id, this.name, this.number, this.link, this.filePath});
+      {this.id, this.name, this.number, this.link, this.courseId});
 
   CourseVideo copyWith({
     String? id,
     String? name,
     String? number,
     String? link,
-    String? filePath,
+    String? courseId,
   }) {
     return CourseVideo(
       id: id ?? this.id,
       name: name ?? this.name,
       number: number ?? this.number,
       link: link ?? this.link,
-      filePath: filePath ?? this.filePath,
+      courseId: courseId ?? this.courseId,
     );
   }
 
@@ -64,5 +64,5 @@ class CourseVideo extends Equatable {
   }
 
   @override
-  List<Object?> get props => [name, number, link, filePath];
+  List<Object?> get props => [name, number, link, courseId];
 }

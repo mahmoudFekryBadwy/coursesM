@@ -8,8 +8,8 @@ abstract class VideosCacheRepository {
   Future<List<CourseVideo>> getCachedCourseVideos(
       String courseId); // get videos for single course by its id
 
-  Future<void> cacheVideos(String courseId,
-      Map<String, List<CourseVideo>> videos); // cahce videos by course id
+  Future<void> cacheVideos(
+      String courseId, CourseVideo video); // cahce videos by course id
 
   Future<String> getCachedVideoPath(String videoLink);
 
@@ -23,11 +23,17 @@ class VideosCacheRepositoryImpl implements VideosCacheRepository {
 
   VideosCacheRepositoryImpl({required this.localStorageProvider});
   @override
-  Future<void> cacheVideos(
-      String courseId, Map<String, List<CourseVideo>> videos) async {
+  Future<void> cacheVideos(String courseId, CourseVideo video) async {
     try {
-      await localStorageProvider.setData<Map<String, List<CourseVideo>>>(
-          courseId, videos, AppStrings.videosKey);
+      // if box closed open it
+      if (!Hive.isBoxOpen(AppStrings.videosKey)) {
+        await Hive.openBox<CourseVideo>(AppStrings.videosKey);
+      }
+      final box = Hive.box<CourseVideo>(AppStrings.videosKey);
+
+      if (!box.values.toList().contains(video)) {
+        box.add(video);
+      }
     } on CacheException catch (err) {
       throw err.message!;
     }
@@ -37,12 +43,18 @@ class VideosCacheRepositoryImpl implements VideosCacheRepository {
   Future<List<CourseVideo>> getCachedCourseVideos(String courseId) async {
     List<CourseVideo> videos = List.empty(growable: true);
     try {
-      final result =
-          await localStorageProvider.getData<Map<String, List<CourseVideo>>>(
-              courseId, AppStrings.videosKey);
-      if (result[courseId] != null) {
-        videos = result[courseId]!;
+      // if box closed open it
+      if (!Hive.isBoxOpen(AppStrings.videosKey)) {
+        await Hive.openBox<CourseVideo>(AppStrings.videosKey);
       }
+      final box = Hive.box<CourseVideo>(AppStrings.videosKey);
+
+      if (box.values.isNotEmpty) {
+        videos = box.values
+            .where((element) => element.courseId == courseId)
+            .toList();
+      }
+
       return videos;
     } on CacheException {
       return videos;

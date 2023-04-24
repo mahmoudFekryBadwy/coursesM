@@ -35,8 +35,13 @@ class VideosRepositoryImpl implements VideosRepository {
             coursesType, courseDocId);
         // get videos from firestore
 
-        await videosCacheRepository.cacheVideos(
-            courseDocId, {courseDocId: videos}); // cache videos details
+        for (CourseVideo video in videos) {
+          final updatedVideo = video.copyWith(
+              courseId: courseDocId); // append course id for video
+
+          await videosCacheRepository.cacheVideos(
+              courseDocId, updatedVideo); // cache video details
+        }
       } else {
         // if failed fetch from cahce
         videos = await videosCacheRepository.getCachedCourseVideos(courseDocId);
