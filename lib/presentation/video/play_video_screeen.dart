@@ -29,18 +29,12 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
 
   bool isPlayerReady = false;
 
-  void check(File file) async {
-    bool found = await file.exists();
-    print(found);
-  }
-
   @override
   void initState() {
     super.initState();
 
     if (widget.video.filePath != null) {
       final path = File(widget.video.filePath!);
-      // check(path);
 
       _videoController = VideoPlayerController.file(path)
         ..initialize().then((_) {
