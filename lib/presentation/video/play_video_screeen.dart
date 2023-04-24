@@ -6,7 +6,7 @@ import 'package:coursesm/core/dependencies.dart';
 import 'package:coursesm/data/models/course_model.dart';
 import 'package:coursesm/data/models/course_video.dart';
 import 'package:coursesm/presentation/video/play_video_viewmodel.dart';
-import 'package:coursesm/services/connectivity_service.dart';
+import 'package:coursesm/core/services/connectivity_service.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
@@ -61,14 +61,15 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
     });
 
     if (!isConnected) {
+      // if no internet connection load file from cache
       final videoPath =
           await sl<PlayVideoViewModel>().getCachedVideoPath(widget.video.link!);
 
-      print(videoPath);
       _videoController = VideoPlayerController.file(File(videoPath))
         ..initialize().then((value) {});
       _videoController.play();
     } else {
+      // if internet connection download video and cache it
       sl<PlayVideoViewModel>().handleVideoCaching(widget.video, () {
         setState(() {});
       });
@@ -96,41 +97,10 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
     super.initState();
 
     handleonCourseInit();
-
-    // sl<PlayVideoViewModel>().handleLoadingState(() {
-    //   setState(() {});
-    // });
-
-    // if (widget.video.filePath != null) {
-    //   final path = File(widget.video.filePath!);
-
-    //   _videoController = VideoPlayerController.file(path)
-    //     ..initialize().then((_) {
-    //       // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-    //       setState(() {});
-    //     });
-    //   _videoController.play();
-    // } else {
-    //   controller = YoutubePlayerController(
-    //     initialVideoId: YoutubePlayer.convertUrlToId(widget.video.link!)!,
-    //     flags: const YoutubePlayerFlags(
-    //       mute: false,
-    //       autoPlay: true,
-    //       disableDragSeek: false,
-    //       loop: false,
-    //       isLive: false,
-    //       forceHD: false,
-    //       enableCaption: true,
-    //       hideThumbnail: true,
-    //     ),
-    //   );
-    // }
   }
 
   @override
   void deactivate() {
-    // // Pauses video while navigating to next page.
-
     handleDeactivating();
     super.deactivate();
   }
@@ -146,7 +116,6 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
     super.dispose();
   }
 
-  late String videoId;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -190,6 +159,7 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
                     color: Colors.white,
                   ),
                 ),
+                // if connected load from youtube
                 sl<PlayVideoViewModel>().isConnected
                     ? isPlayerReady
                         ? YoutubePlayerBuilder(
@@ -204,6 +174,8 @@ class _PlayVideoScreenState extends State<PlayVideoScreen> {
                               );
                             })
                         : const SizedBox()
+
+                    // if not connected load from video player (cache file)
                     : Center(
                         child: Container(
                           padding: const EdgeInsets.all(5),

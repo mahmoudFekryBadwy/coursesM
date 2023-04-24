@@ -2,9 +2,9 @@ import 'package:coursesm/core/utils/enums/courses_type.dart';
 import 'package:coursesm/data/models/course_video.dart';
 import 'package:coursesm/data/repositories/videos_repository/videos_cache_repository.dart';
 import 'package:coursesm/data/repositories/videos_repository/videos_remote_repository.dart';
-import 'package:coursesm/services/connectivity_service.dart';
+import 'package:coursesm/core/services/connectivity_service.dart';
 
-import '../../../services/video_downloader_service.dart';
+import '../../../core/services/video_downloader_service.dart';
 
 abstract class VideosRepository {
   Future<List<CourseVideo>> getCourseVideos(
@@ -35,10 +35,8 @@ class VideosRepositoryImpl implements VideosRepository {
             coursesType, courseDocId);
         // get videos from firestore
 
-        await videosCacheRepository
-            .cacheVideos(courseDocId, {courseDocId: videos});
-
-        // _handleVideosCaching(videos, courseDocId);
+        await videosCacheRepository.cacheVideos(
+            courseDocId, {courseDocId: videos}); // cache videos details
       } else {
         // if failed fetch from cahce
         videos = await videosCacheRepository.getCachedCourseVideos(courseDocId);
@@ -49,24 +47,4 @@ class VideosRepositoryImpl implements VideosRepository {
       return videos;
     }
   }
-
-  // void _handleVideosCaching(
-  //     List<CourseVideo> videos, String courseDocId) async {
-  //   if (!Hive.isBoxOpen(AppStrings.videosKey)) {
-  //     await Hive.openBox<List<CourseVideo>>(AppStrings.videosKey);
-  //   }
-
-  //   final box = Hive.box<List<CourseVideo>>(AppStrings.videosKey);
-  //   bool test = box.containsKey(courseDocId);
-
-  //   print(test);
-
-  //   if (!test) {
-  //     final downloadedVideos = await videoDownloaderService
-  //         .retrieveVideosFiles(videos); // download videos and retrive file path
-
-  //     await videosCacheRepository.cacheVideos(
-  //         courseDocId, downloadedVideos); // cache downloaded videos files
-  //   }
-  // }
 }

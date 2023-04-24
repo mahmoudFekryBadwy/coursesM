@@ -48,17 +48,15 @@ class VideoCard extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: Container(
-                  child: Text(
-                    video.name!,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                    textAlign: TextAlign.center,
-                    textDirection: TextDirection.rtl,
-                    maxLines: 3,
+                child: Text(
+                  video.name!,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
                   ),
+                  textAlign: TextAlign.center,
+                  textDirection: TextDirection.rtl,
+                  maxLines: 3,
                 ),
               ),
               Expanded(

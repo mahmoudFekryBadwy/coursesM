@@ -10,6 +10,7 @@ class HiveStorageService implements LocalStorageProvider {
   @override
   Future<T> getData<T>(String key, [String? boxName]) async {
     try {
+      // if box closed open it
       if (!Hive.isBoxOpen(boxName!)) {
         await Hive.openBox<T>(boxName);
       }
@@ -30,6 +31,7 @@ class HiveStorageService implements LocalStorageProvider {
         await Hive.openBox<T>(boxName);
       }
       final box = Hive.box<T>(boxName);
+      // if given value doesnt exist add it to box
       if (!box.containsKey(key)) {
         box.put(key, value);
       }

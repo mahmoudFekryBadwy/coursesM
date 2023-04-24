@@ -1,9 +1,7 @@
 import 'package:coursesm/data/models/course_video.dart';
 import 'package:coursesm/data/repositories/videos_repository/videos_cache_repository.dart';
-import 'package:coursesm/services/connectivity_service.dart';
-import 'package:coursesm/services/video_downloader_service.dart';
-import 'package:video_player/video_player.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:coursesm/core/services/connectivity_service.dart';
+import 'package:coursesm/core/services/video_downloader_service.dart';
 
 class PlayVideoViewModel {
   final VideosCacheRepository videosCacheRepository;
@@ -44,26 +42,6 @@ class PlayVideoViewModel {
   void handleLoadingState(Function setStateCallback) async {
     _isLoading = false;
     setStateCallback();
-  }
-
-  void handleDisposing(YoutubePlayerController? controller,
-      VideoPlayerController? videoController, Function setStateCallback) {
-    if (controller != null) {
-      controller.dispose();
-    } else {
-      videoController!.dispose();
-    }
-
-    resetState(setStateCallback);
-  }
-
-  void handleDeactivating(YoutubePlayerController? controller,
-      VideoPlayerController? videoController, Function setStateCallback) {
-    if (controller != null) {
-      controller.pause();
-    } else {
-      videoController!.pause();
-    }
   }
 
   Future<String> getCachedVideoPath(String videoLink) async {

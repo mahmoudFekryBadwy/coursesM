@@ -8,9 +8,9 @@ import 'package:coursesm/data/repositories/videos_repository/videos_repository.d
 import 'package:coursesm/presentation/course_videos/course_videos_viewmodel.dart';
 import 'package:coursesm/presentation/courses/courses_viewmodel.dart';
 import 'package:coursesm/presentation/video/play_video_viewmodel.dart';
-import 'package:coursesm/services/base_service.dart';
-import 'package:coursesm/services/connectivity_service.dart';
-import 'package:coursesm/services/video_downloader_service.dart';
+import 'package:coursesm/core/services/base_service.dart';
+import 'package:coursesm/core/services/connectivity_service.dart';
+import 'package:coursesm/core/services/video_downloader_service.dart';
 import 'package:get_it/get_it.dart';
 
 import 'localstorage/hive_consumer.dart';

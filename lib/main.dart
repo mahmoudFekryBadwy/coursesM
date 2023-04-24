@@ -2,7 +2,7 @@ import 'package:coursesm/core/app_strings.dart';
 import 'package:coursesm/core/dependencies.dart';
 import 'package:coursesm/data/models/course_video.dart';
 import 'package:coursesm/presentation/splash/splash_screen.dart';
-import 'package:coursesm/services/db_helper.dart';
+import 'package:coursesm/core/services/db_helper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_windowmanager/flutter_windowmanager.dart';
@@ -25,7 +25,8 @@ void main() async {
   await Hive.openBox<List<CourseCode>>(
       AppStrings.codesKey); //  box  for storing and caching codes
 
-  await Hive.openBox<String>(AppStrings.videosPathsKey);
+  await Hive.openBox<String>(
+      AppStrings.videosPathsKey); // box for videos file paths
 
   setupDependencies();
   runApp(const MyApp());
