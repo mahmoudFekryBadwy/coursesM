@@ -12,6 +12,3 @@ class ServerFailure extends Failure {
   const ServerFailure({required String message}) : super(message: message);
 } // for remote data
 
-class LocationFailure extends Failure {
-  const LocationFailure({required String message}) : super(message: message);
-} // for location failures
